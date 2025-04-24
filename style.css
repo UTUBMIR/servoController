@@ -48,7 +48,7 @@ h1 {
   transition: background 0.3s ease;
 }
 
-.slider::-webkit-slider-thumb:hover {
+.slider::-webkit-slider-thumb:active {
   background: #0056b3;
 }
 
@@ -84,7 +84,7 @@ h1 {
 }
 
 /* 💻 På PC (hover): gjør thumb mørkere */
-@media (hover: hover) and (pointer: fine) {
+@media (: active) and (pointer: fine) {
   .slider:hover::-webkit-slider-thumb {
     background: #007bff; /* Mørkere blå */
   }
@@ -109,7 +109,7 @@ body.ipad-fix .slider::-webkit-slider-thumb {
   background: #007bff;
 }
 
-body.ipad-fix .slider:hover::-webkit-slider-thumb {
+body.ipad-fix .slider:active::-webkit-slider-thumb {
   background: #0056b3;
 }
 
