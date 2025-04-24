@@ -39,7 +39,7 @@ h1 {
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 30px;
+  width: 40px;
   height: 40px;
   background: #007bff;
   border-radius: 50%;
@@ -54,7 +54,7 @@ h1 {
 
 /* For Firefox */
 .slider::-moz-range-thumb {
-  width: 30px;
+  width: 40px;
   height: 40px;
   background: #007bff;
   border: none;
@@ -65,7 +65,7 @@ h1 {
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 30px;
+  width: 40px;
   height: 40px;
   background: #007bff; /* Lys blå */
   border-radius: 50%;
@@ -74,7 +74,7 @@ h1 {
 }
 
 .slider::-moz-range-thumb {
-  width: 30px;
+  width: 40px;
   height: 40px;
   background: #007bff;
   border: none;
