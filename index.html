@@ -5,42 +5,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Servo Controller</title>
-
-  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
   <div class="card">
-    <p>servo 1: <span id="servoPos">90</span>°</p>
-    <input type="range" min="0" max="180" value="90" class="slider" id="servoSlider" oninput="updateServo(this.value)">
+    <p>servo 1: <span id="servoPos1" class="servoPos">90</span>°</p>
+    <input type="range" min="0" max="180" value="90" class="slider" oninput="updateServo(1, this.value)">
   </div>
 
   <div class="card">
-    <p>servo 2: <span id="servoPos">90</span>°</p>
-    <input type="range" min="0" max="180" value="90" class="slider" id="servoSlider" oninput="updateServo(this.value)">
+    <p>servo 2: <span id="servoPos2" class="servoPos">90</span>°</p>
+    <input type="range" min="0" max="180" value="90" class="slider" oninput="updateServo(2, this.value)">
   </div>
 
   <div class="card">
-    <p>servo 3: <span id="servoPos">90</span>°</p>
-    <input type="range" min="0" max="180" value="90" class="slider" id="servoSlider" oninput="updateServo(this.value)">
+    <p>servo 3: <span id="servoPos3" class="servoPos">90</span>°</p>
+    <input type="range" min="0" max="180" value="90" class="slider" oninput="updateServo(3, this.value)">
   </div>
 
   <div class="card">
-    <p>servo 4: <span id="servoPos">90</span>°</p>
-    <input type="range" min="0" max="180" value="90" class="slider" id="servoSlider" oninput="updateServo(this.value)">
+    <p>servo 4: <span id="servoPos4" class="servoPos">90</span>°</p>
+    <input type="range" min="0" max="180" value="90" class="slider" oninput="updateServo(4, this.value)">
   </div>
 
   <script>
-    function updateServo(pos) {
+    function updateServo(servoNumber, pos) {
       var xhr = new XMLHttpRequest();
-      xhr.open('GET', '/slider?pos=' + pos, true);
+      xhr.open('GET', '/slider?servo=' + servoNumber + '&pos=' + pos, true);
       xhr.send();
-      document.getElementById('servoPos').innerText = pos;
-    }
-    // Enkel deteksjon av iPad
-    if (navigator.userAgent.includes("iPad") ||
-      (navigator.userAgent.includes("Macintosh") && 'ontouchend' in document)) {
-      document.body.classList.add("ipad-fix");
+      document.getElementById('servoPos' + servoNumber).innerText = pos;
     }
   </script>
 </body>
