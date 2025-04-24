@@ -1,0 +1,131 @@
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f2f5;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+h1 {
+  margin-top: 0;
+  color: #333;
+}
+
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px, rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 50%;
+
+  margin-bottom: 15px;
+}
+
+.slider {
+  -webkit-appearance: none; /* Fjerner standard stil */
+  width: 80%;
+  height: 30px;
+  background: #ddd;
+  border-radius: 15px;
+  outline: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+/* "Thumb" – det du drar på */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 30px;
+  height: 30px;
+  background: #007bff;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  background: #0056b3;
+}
+
+/* For Firefox */
+.slider::-moz-range-thumb {
+  width: 30px;
+  height: 30px;
+  background: #007bff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 30px;
+  height: 30px;
+  background: #007bff; /* Lys blå */
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.slider::-moz-range-thumb {
+  width: 30px;
+  height: 30px;
+  background: #007bff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+/* 💻 På PC (hover): gjør thumb mørkere */
+@media (hover: hover) and (pointer: fine) {
+  .slider:hover::-webkit-slider-thumb {
+    background: #007bff; /* Mørkere blå */
+  }
+
+  .slider:hover::-moz-range-thumb {
+    background: #007bff;
+  }
+}
+
+/* 📱 På mobil (touch/click): gjør thumb mørkere når aktiv */
+@media (hover: none) {
+  .slider:active::-webkit-slider-thumb {
+    background: #0056b3; /* Enda mørkere blå */
+  }
+
+  .slider:active::-moz-range-thumb {
+    background: #0056b3;
+  }
+}
+/* Tving hover-stil på iPad */
+body.ipad-fix .slider::-webkit-slider-thumb {
+  background: #007bff;
+}
+
+body.ipad-fix .slider:hover::-webkit-slider-thumb {
+  background: #0056b3;
+}
+
+body.ipad-fix .slider::-moz-range-thumb {
+  background: #007bff;
+}
+
+#servoPos {
+  font-weight: bold;
+  color: #007bff;
+  font-size: 1.5em;
+}
+p {
+  color: #333;
+  margin-bottom: 0;
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: -15px;
+}
