@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Servo Controller</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="card">
+    <p>servo 1: <span id="servoPos">90</span>°</p>
+    <input type="range" min="0" max="180" value="90" class="slider" id="servoSlider" oninput="updateServo(this.value)">
+  </div>
+
+  <div class="card">
+    <p>servo 2: <span id="servoPos">90</span>°</p>
+    <input type="range" min="0" max="180" value="90" class="slider" id="servoSlider" oninput="updateServo(this.value)">
+  </div>
+
+  <div class="card">
+    <p>servo 3: <span id="servoPos">90</span>°</p>
+    <input type="range" min="0" max="180" value="90" class="slider" id="servoSlider" oninput="updateServo(this.value)">
+  </div>
+
+  <div class="card">
+    <p>servo 4: <span id="servoPos">90</span>°</p>
+    <input type="range" min="0" max="180" value="90" class="slider" id="servoSlider" oninput="updateServo(this.value)">
+  </div>
+
+  <script>
+    function updateServo(pos) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', '/slider?pos=' + pos, true);
+      xhr.send();
+      document.getElementById('servoPos').innerText = pos;
+    }
+    // Enkel deteksjon av iPad
+    if (navigator.userAgent.includes("iPad") ||
+      (navigator.userAgent.includes("Macintosh") && 'ontouchend' in document)) {
+      document.body.classList.add("ipad-fix");
+    }
+  </script>
+</body>
+
+</html>
