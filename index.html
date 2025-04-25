@@ -37,54 +37,59 @@
         const canvas = document.getElementById('manipulatorCanvas');
         const ctx = canvas.getContext('2d');
 
-        // Funksjon for å oppdatere servos og tegne manipulatoren
-        function updateServo(servoNumber, pos) {
-            if (lastServoPositions[servoNumber] !== pos) {
-                lastServoPositions[servoNumber] = pos;
+        // Funksjon for å oppdatere servoene og tegne manipulatoren
+        function updateServo(servoNumber, angle) {
+            if (lastServoPositions[servoNumber] !== angle) {
+                lastServoPositions[servoNumber] = angle;
 
                 const xhr = new XMLHttpRequest();
-                xhr.open('GET', '/slider?servo=' + servoNumber + '&pos=' + pos, true);
+                xhr.open('GET', '/slider?servo=' + servoNumber + '&angle=' + angle, true);
                 xhr.send();
 
-                document.getElementById('servoPos' + servoNumber).innerText = pos;
+                document.getElementById('servoPos' + servoNumber).innerText = angle;
 
                 drawManipulator();
             }
         }
 
-        // Funksjon for å tegne manipulatoren basert på servo-posisjonene
+        // Funksjon for å tegne manipulatoren basert på servoenes vinkler
         function drawManipulator() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             // Startposisjon for manipulatoren
-            let x = 50;
+            let x = 300;  // Midten av skjermen
             let y = 200;
 
             // Tegn 3 servos som representerer leddene til manipulatoren
-            let angle = 0; // Vinkel for første servo
+            let angle1 = lastServoPositions[1] || 0;  // Vinkel for første servo (i grader)
+            let angle2 = lastServoPositions[2] || 0;  // Vinkel for andre servo (i grader)
+            let angle3 = lastServoPositions[3] || 0;  // Vinkel for tredje servo (i grader)
 
-            // 1. ledd
-            let length1 = lastServoPositions[1] || 100;
-            let x1 = x + length1 * Math.cos(angle);
-            let y1 = y - length1 * Math.sin(angle);
+            // Konverter vinkler fra grader til radianer
+            angle1 = angle1 * Math.PI / 180;
+            angle2 = angle2 * Math.PI / 180;
+            angle3 = angle3 * Math.PI / 180;
+
+            // 1. ledd (første arm)
+            let length1 = 100;  // Lengden på første arm
+            let x1 = x + length1 * Math.cos(angle1);
+            let y1 = y + length1 * Math.sin(angle1);
             ctx.fillStyle = 'blue';
             ctx.fillRect(x, y - 10, length1, 20); // Første rektangel (arm)
             drawJoint(x, y, x1, y1); // Tegn første ledd (joint)
 
-            // 2. ledd
-            let angle2 = Math.PI / 4; // Vinkel for andre servo
-            let length2 = lastServoPositions[2] || 100;
-            let x2 = x1 + length2 * Math.cos(angle2);
-            let y2 = y1 - length2 * Math.sin(angle2);
+            // 2. ledd (andre arm)
+            let length2 = 100;  // Lengden på andre arm
+            let x2 = x1 + length2 * Math.cos(angle1 + angle2);
+            let y2 = y1 + length2 * Math.sin(angle1 + angle2);
             ctx.fillStyle = 'green';
             ctx.fillRect(x1, y1 - 10, length2, 20); // Andre rektangel (arm)
             drawJoint(x1, y1, x2, y2); // Tegn andre ledd (joint)
 
-            // 3. ledd
-            let angle3 = Math.PI / 2; // Vinkel for tredje servo
-            let length3 = lastServoPositions[3] || 100;
-            let x3 = x2 + length3 * Math.cos(angle3);
-            let y3 = y2 - length3 * Math.sin(angle3);
+            // 3. ledd (tredje arm)
+            let length3 = 100;  // Lengden på tredje arm
+            let x3 = x2 + length3 * Math.cos(angle1 + angle2 + angle3);
+            let y3 = y2 + length3 * Math.sin(angle1 + angle2 + angle3);
             ctx.fillStyle = 'red';
             ctx.fillRect(x2, y2 - 10, length3, 20); // Tredje rektangel (arm)
             drawJoint(x2, y2, x3, y3); // Tegn tredje ledd (joint)
@@ -98,11 +103,11 @@
             ctx.fill();
         }
 
-        // Oppdater servoer og tegn modell ved innlasting
+        // Oppdater servoene og tegn modell ved innlasting
         window.onload = function() {
-            updateServo(1, 100);  // Eksempel på oppdatering
-            updateServo(2, 100);
-            updateServo(3, 100);
+            updateServo(1, 30);  // Eksempel på oppdatering for første servo (30 grader)
+            updateServo(2, 45);  // Eksempel på oppdatering for andre servo (45 grader)
+            updateServo(3, 60);  // Eksempel på oppdatering for tredje servo (60 grader)
         };
     </script></body>
 
