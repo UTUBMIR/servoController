@@ -58,7 +58,7 @@
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     let baseX = 300;
-    let baseY = 200;
+    let baseY = 400; // Зсунуто вниз, бо буде інверсія по Y
 
     let angle1 = (lastServoPositions[1] || 0) * Math.PI / 180;
     let angle2 = (lastServoPositions[2] || 0) * Math.PI / 180;
@@ -67,6 +67,10 @@
     let length1 = 100;
     let length2 = 100;
     let length3 = 100;
+
+    ctx.save();
+    ctx.translate(0, canvas.height); // початок знизу
+    ctx.scale(1, -1); // інвертуємо Y
 
     // 1st segment
     ctx.save();
@@ -99,7 +103,10 @@
     drawJoint(baseX, baseY);
     drawJoint(x1, y1);
     drawJoint(x2, y2);
+
+    ctx.restore(); // повернути після scale
 }
+
 
 // Draw circular joint
 function drawJoint(x, y) {
