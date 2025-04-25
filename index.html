@@ -10,6 +10,9 @@
 
 <body>
   <h1>Servo Controller</h1>
+  
+  <canvas id="manipulatorCanvas" width="600" height="400"></canvas>
+  
   <div class="card">
     <p>Servo 1: <span id="servoPos1" class="servoPos">90</span></p>
     <input type="range" min="0" max="180" value="90" class="slider" oninput="updateServo(1, this.value)">
@@ -29,8 +32,6 @@
     <p>Servo 4: <span id="servoPos4" class="servoPos">90</span></p>
     <input type="range" min="0" max="180" value="90" class="slider" oninput="updateServo(4, this.value)">
   </div>
-
-    <canvas id="manipulatorCanvas" width="600" height="400"></canvas>
 
     <script>
         const lastServoPositions = {};
@@ -94,8 +95,8 @@
 
             // 3. ledd (tredje arm)
             let length3 = 100;  // Lengden på tredje arm
-            let x3 = x2 + length3 * Math.cos(angle1 + angle2 + angle3);
-            let y3 = y2 + length3 * Math.sin(angle1 + angle2 + angle3);
+            let x3 = x2 - length3 * Math.cos(angle1 + angle2 + angle3);
+            let y3 = y2 - length3 * Math.sin(angle1 + angle2 + angle3);
             ctx.save(); // Lagre tilstanden før vi roterer
             ctx.translate(x2, y2); // Flytt koordinatsystemet til andre ledd
             ctx.rotate(angle3); // Roter koordinatsystemet
