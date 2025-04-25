@@ -30,7 +30,7 @@
     <input type="range" min="0" max="180" value="90" class="slider" oninput="updateServo(4, this.value)">
   </div>
 
-   <canvas id="manipulatorCanvas" width="600" height="400"></canvas>
+    <canvas id="manipulatorCanvas" width="600" height="400"></canvas>
 
     <script>
         const lastServoPositions = {};
@@ -56,26 +56,53 @@
         function drawManipulator() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Tegn grunnleggende manipulator med rektangler basert på servo posisjoner
+            // Startposisjon for manipulatoren
             let x = 50;
             let y = 200;
 
-            // Tegn 3 servos som eksempler
-            for (let i = 1; i <= 3; i++) {
-                let length = lastServoPositions[i] || 50; // Standard lengde 50 hvis posisjon ikke er satt
-                ctx.fillStyle = 'blue';
-                ctx.fillRect(x, y, length, 20); // Tegn rektangel som representerer manipulator-arm
+            // Tegn 3 servos som representerer leddene til manipulatoren
+            let angle = 0; // Vinkel for første servo
 
-                // Oppdater x, y for neste rektangel
-                x += length;
-            }
+            // 1. ledd
+            let length1 = lastServoPositions[1] || 100;
+            let x1 = x + length1 * Math.cos(angle);
+            let y1 = y - length1 * Math.sin(angle);
+            ctx.fillStyle = 'blue';
+            ctx.fillRect(x, y - 10, length1, 20); // Første rektangel (arm)
+            drawJoint(x, y, x1, y1); // Tegn første ledd (joint)
+
+            // 2. ledd
+            let angle2 = Math.PI / 4; // Vinkel for andre servo
+            let length2 = lastServoPositions[2] || 100;
+            let x2 = x1 + length2 * Math.cos(angle2);
+            let y2 = y1 - length2 * Math.sin(angle2);
+            ctx.fillStyle = 'green';
+            ctx.fillRect(x1, y1 - 10, length2, 20); // Andre rektangel (arm)
+            drawJoint(x1, y1, x2, y2); // Tegn andre ledd (joint)
+
+            // 3. ledd
+            let angle3 = Math.PI / 2; // Vinkel for tredje servo
+            let length3 = lastServoPositions[3] || 100;
+            let x3 = x2 + length3 * Math.cos(angle3);
+            let y3 = y2 - length3 * Math.sin(angle3);
+            ctx.fillStyle = 'red';
+            ctx.fillRect(x2, y2 - 10, length3, 20); // Tredje rektangel (arm)
+            drawJoint(x2, y2, x3, y3); // Tegn tredje ledd (joint)
+        }
+
+        // Funksjon for å tegne et joint mellom to deler
+        function drawJoint(x1, y1, x2, y2) {
+            ctx.beginPath();
+            ctx.arc(x2, y2, 5, 0, 2 * Math.PI);
+            ctx.fillStyle = 'black';
+            ctx.fill();
         }
 
         // Oppdater servoer og tegn modell ved innlasting
         window.onload = function() {
             updateServo(1, 100);  // Eksempel på oppdatering
-            updateServo(2, 150);
-            updateServo(3, 200);
+            updateServo(2, 100);
+            updateServo(3, 100);
         };
     </script></body>
 
