@@ -31,12 +31,19 @@
   </div>
 
   <script>
-    function updateServo(servoNumber, pos) {
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', '/slider?servo=' + servoNumber + '&pos=' + pos, true);
-      xhr.send();
-      document.getElementById('servoPos' + servoNumber).innerText = pos;
-    }
+    const lastServoPositions = {};
+
+function updateServo(servoNumber, pos) {
+  if (lastServoPositions[servoNumber] !== pos) {
+    lastServoPositions[servoNumber] = pos;
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', '/slider?servo=' + servoNumber + '&pos=' + pos, true);
+    xhr.send();
+
+    document.getElementById('servoPos' + servoNumber).innerText = pos;
+  }
+}
   </script>
 </body>
 
