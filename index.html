@@ -74,25 +74,37 @@
             let length1 = 100;  // Lengden på første arm
             let x1 = x + length1 * Math.cos(angle1);
             let y1 = y + length1 * Math.sin(angle1);
+            ctx.save(); // Lagre tilstanden før vi roterer
+            ctx.translate(x, y); // Flytt koordinatsystemet til leddet
+            ctx.rotate(angle1); // Roter koordinatsystemet
             ctx.fillStyle = 'blue';
-            ctx.fillRect(x, y - 10, length1, 20); // Første rektangel (arm)
-            drawJoint(x, y, x1, y1); // Tegn første ledd (joint)
+            ctx.fillRect(0, -10, length1, 20); // Første rektangel (arm)
+            ctx.restore(); // Gjenopprett den gamle tilstanden
 
             // 2. ledd (andre arm)
             let length2 = 100;  // Lengden på andre arm
             let x2 = x1 + length2 * Math.cos(angle1 + angle2);
             let y2 = y1 + length2 * Math.sin(angle1 + angle2);
+            ctx.save(); // Lagre tilstanden før vi roterer
+            ctx.translate(x1, y1); // Flytt koordinatsystemet til første ledd
+            ctx.rotate(angle2); // Roter koordinatsystemet
             ctx.fillStyle = 'green';
-            ctx.fillRect(x1, y1 - 10, length2, 20); // Andre rektangel (arm)
-            drawJoint(x1, y1, x2, y2); // Tegn andre ledd (joint)
+            ctx.fillRect(0, -10, length2, 20); // Andre rektangel (arm)
+            ctx.restore(); // Gjenopprett den gamle tilstanden
 
             // 3. ledd (tredje arm)
             let length3 = 100;  // Lengden på tredje arm
             let x3 = x2 + length3 * Math.cos(angle1 + angle2 + angle3);
             let y3 = y2 + length3 * Math.sin(angle1 + angle2 + angle3);
+            ctx.save(); // Lagre tilstanden før vi roterer
+            ctx.translate(x2, y2); // Flytt koordinatsystemet til andre ledd
+            ctx.rotate(angle3); // Roter koordinatsystemet
             ctx.fillStyle = 'red';
-            ctx.fillRect(x2, y2 - 10, length3, 20); // Tredje rektangel (arm)
-            drawJoint(x2, y2, x3, y3); // Tegn tredje ledd (joint)
+            ctx.fillRect(0, -10, length3, 20); // Tredje rektangel (arm)
+            ctx.restore(); // Gjenopprett den gamle tilstanden
+
+            drawJoint(x1, y1, x2, y2);
+            drawJoint(x2, y2, x3, y3);
         }
 
         // Funksjon for å tegne et joint mellom to deler
