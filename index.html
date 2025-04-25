@@ -30,21 +30,53 @@
     <input type="range" min="0" max="180" value="90" class="slider" oninput="updateServo(4, this.value)">
   </div>
 
-  <script>
-    const lastServoPositions = {};
+   <canvas id="manipulatorCanvas" width="600" height="400"></canvas>
 
-function updateServo(servoNumber, pos) {
-  if (lastServoPositions[servoNumber] !== pos) {
-    lastServoPositions[servoNumber] = pos;
+    <script>
+        const lastServoPositions = {};
+        const canvas = document.getElementById('manipulatorCanvas');
+        const ctx = canvas.getContext('2d');
 
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', '/slider?servo=' + servoNumber + '&pos=' + pos, true);
-    xhr.send();
+        // Funksjon for å oppdatere servos og tegne manipulatoren
+        function updateServo(servoNumber, pos) {
+            if (lastServoPositions[servoNumber] !== pos) {
+                lastServoPositions[servoNumber] = pos;
 
-    document.getElementById('servoPos' + servoNumber).innerText = pos;
-  }
-}
-  </script>
-</body>
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', '/slider?servo=' + servoNumber + '&pos=' + pos, true);
+                xhr.send();
+
+                document.getElementById('servoPos' + servoNumber).innerText = pos;
+
+                drawManipulator();
+            }
+        }
+
+        // Funksjon for å tegne manipulatoren basert på servo-posisjonene
+        function drawManipulator() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Tegn grunnleggende manipulator med rektangler basert på servo posisjoner
+            let x = 50;
+            let y = 200;
+
+            // Tegn 3 servos som eksempler
+            for (let i = 1; i <= 3; i++) {
+                let length = lastServoPositions[i] || 50; // Standard lengde 50 hvis posisjon ikke er satt
+                ctx.fillStyle = 'blue';
+                ctx.fillRect(x, y, length, 20); // Tegn rektangel som representerer manipulator-arm
+
+                // Oppdater x, y for neste rektangel
+                x += length;
+            }
+        }
+
+        // Oppdater servoer og tegn modell ved innlasting
+        window.onload = function() {
+            updateServo(1, 100);  // Eksempel på oppdatering
+            updateServo(2, 150);
+            updateServo(3, 200);
+        };
+    </script></body>
 
 </html>
