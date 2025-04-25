@@ -62,7 +62,7 @@
             let y = 200;
 
             // Tegn 3 servos som representerer leddene til manipulatoren
-            let angle1 = lastServoPositions[1] || 0;  // Vinkel for første servo (i grader)
+            let angle1 = lastServoPositions[1] + 180 || 0;  // Vinkel for første servo (i grader)
             let angle2 = lastServoPositions[2] || 0;  // Vinkel for andre servo (i grader)
             let angle3 = lastServoPositions[3] || 0;  // Vinkel for tredje servo (i grader)
 
