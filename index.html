@@ -55,71 +55,60 @@
 
         // Funksjon for å tegne manipulatoren basert på servoenes vinkler
         function drawManipulator() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Startposisjon for manipulatoren
-            let x = 300;  // Midten av skjermen
-            let y = 200;
+    let baseX = 300;
+    let baseY = 200;
 
-            // Tegn 3 servos som representerer leddene til manipulatoren
-            let angle1 = lastServoPositions[1] || 0;  // Vinkel for første servo (i grader)
-            let angle2 = lastServoPositions[2] || 0;  // Vinkel for andre servo (i grader)
-            let angle3 = lastServoPositions[3] || 0;  // Vinkel for tredje servo (i grader)
+    let angle1 = (lastServoPositions[1] || 0) * Math.PI / 180;
+    let angle2 = (lastServoPositions[2] || 0) * Math.PI / 180;
+    let angle3 = (lastServoPositions[3] || 0) * Math.PI / 180;
 
-            // Konverter vinkler fra grader til radianer
-          let temptemp = (angle2 - 180 + angle1);
-          if (temptemp > 359) {
-temptemp = temptemp % 360;
-          }
-            angle2 = temptemp * Math.PI / 180;
-          
-            angle1 = (angle1 - 180) * Math.PI / 180;
-            angle3 = angle3 * Math.PI / 180;
+    let length1 = 100;
+    let length2 = 100;
+    let length3 = 100;
 
-            // 1. ledd (første arm)
-            let length1 = 100;  // Lengden på første arm
-            let x1 = x + length1 * Math.cos(angle1);
-            let y1 = y + length1 * Math.sin(angle1);
-            ctx.save(); // Lagre tilstanden før vi roterer
-            ctx.translate(x, y); // Flytt koordinatsystemet til leddet
-            ctx.rotate(angle1); // Roter koordinatsystemet
-            ctx.fillStyle = 'blue';
-            ctx.fillRect(0, -10, length1, 20); // Første rektangel (arm)
-            ctx.restore(); // Gjenopprett den gamle tilstanden
+    // 1st segment
+    ctx.save();
+    ctx.translate(baseX, baseY);
+    ctx.rotate(angle1);
+    ctx.fillStyle = 'blue';
+    ctx.fillRect(0, -10, length1, 20);
+    let x1 = baseX + length1 * Math.cos(angle1);
+    let y1 = baseY + length1 * Math.sin(angle1);
+    ctx.restore();
 
-            // 2. ledd (andre arm)
-            let length2 = 100;  // Lengden på andre arm
-            let x2 = x1 + length2 * Math.cos(angle1 + angle2);
-            let y2 = y1 + length2 * Math.sin(angle1 + angle2);
-            ctx.save(); // Lagre tilstanden før vi roterer
-            ctx.translate(x1, y1); // Flytt koordinatsystemet til første ledd
-            ctx.rotate(angle2); // Roter koordinatsystemet
-            ctx.fillStyle = 'green';
-            ctx.fillRect(0, -10, length2, 20); // Andre rektangel (arm)
-            ctx.restore(); // Gjenopprett den gamle tilstanden
+    // 2nd segment
+    ctx.save();
+    ctx.translate(x1, y1);
+    ctx.rotate(angle1 + angle2);
+    ctx.fillStyle = 'green';
+    ctx.fillRect(0, -10, length2, 20);
+    let x2 = x1 + length2 * Math.cos(angle1 + angle2);
+    let y2 = y1 + length2 * Math.sin(angle1 + angle2);
+    ctx.restore();
 
-            // 3. ledd (tredje arm)
-            let length3 = 100;  // Lengden på tredje arm
-            let x3 = x2 + length3 * Math.cos(angle1 + angle2 + angle3);
-            let y3 = y2 + length3 * Math.sin(angle1 + angle2 + angle3);
-            ctx.save(); // Lagre tilstanden før vi roterer
-            ctx.translate(x2, y2); // Flytt koordinatsystemet til andre ledd
-            ctx.rotate(angle3); // Roter koordinatsystemet
-            ctx.fillStyle = 'red';
-            ctx.fillRect(0, -10, length3, 20); // Tredje rektangel (arm)
-            ctx.restore(); // Gjenopprett den gamle tilstanden
+    // 3rd segment
+    ctx.save();
+    ctx.translate(x2, y2);
+    ctx.rotate(angle1 + angle2 + angle3);
+    ctx.fillStyle = 'red';
+    ctx.fillRect(0, -10, length3, 20);
+    ctx.restore();
 
-            drawJoint(x1, y1, x2, y2);
-            drawJoint(x2, y2, x3, y3);
-        }
+    drawJoint(baseX, baseY);
+    drawJoint(x1, y1);
+    drawJoint(x2, y2);
+}
 
-        // Funksjon for å tegne et joint mellom to deler
-        function drawJoint(x1, y1, x2, y2) {
-            ctx.beginPath();
-            ctx.arc(x2, y2, 5, 0, 2 * Math.PI);
-            ctx.fillStyle = 'black';
-            ctx.fill();
-        }
+// Draw circular joint
+function drawJoint(x, y) {
+    ctx.beginPath();
+    ctx.arc(x, y, 5, 0, 2 * Math.PI);
+    ctx.fillStyle = 'black';
+    ctx.fill();
+}
+
 
         // Oppdater servoene og tegn modell ved innlasting
         window.onload = function() {
