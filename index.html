@@ -57,8 +57,8 @@
         function drawManipulator() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    let baseX = 300;
-    let baseY = 400; // Зсунуто вниз, бо буде інверсія по Y
+    let baseX = canvas.width / 2;
+    let baseY = 50; // ближче до низу ПІСЛЯ інверсії координат
 
     let angle1 = (lastServoPositions[1] || 0) * Math.PI / 180;
     let angle2 = (lastServoPositions[2] || 0) * Math.PI / 180;
@@ -69,10 +69,10 @@
     let length3 = 100;
 
     ctx.save();
-    ctx.translate(0, canvas.height); // початок знизу
-    ctx.scale(1, -1); // інвертуємо Y
+    ctx.translate(0, canvas.height); // перенесли вісь Y вниз
+    ctx.scale(1, -1); // інверсія по Y
 
-    // 1st segment
+    // 1-й сегмент
     ctx.save();
     ctx.translate(baseX, baseY);
     ctx.rotate(angle1);
@@ -82,7 +82,7 @@
     let y1 = baseY + length1 * Math.sin(angle1);
     ctx.restore();
 
-    // 2nd segment
+    // 2-й сегмент
     ctx.save();
     ctx.translate(x1, y1);
     ctx.rotate(angle1 + angle2);
@@ -92,7 +92,7 @@
     let y2 = y1 + length2 * Math.sin(angle1 + angle2);
     ctx.restore();
 
-    // 3rd segment
+    // 3-й сегмент
     ctx.save();
     ctx.translate(x2, y2);
     ctx.rotate(angle1 + angle2 + angle3);
@@ -104,8 +104,9 @@
     drawJoint(x1, y1);
     drawJoint(x2, y2);
 
-    ctx.restore(); // повернути після scale
+    ctx.restore(); // скасували scale
 }
+
 
 
 // Draw circular joint
